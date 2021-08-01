@@ -23,12 +23,12 @@ authController.register = async (req, res) => {
     }
     var salt = bcrypt.genSaltSync(10);
     var hashPassword = bcrypt.hashSync(password, salt);
-    const user = new User ({
+    const newUser = new User ({
         username: username,
         email: email,
         password: hashPassword,
     })
-    User.create()
+    newUser.save()
     return res.status(201).json({
         status: true,
         message : 'User Registered Successfully!',
