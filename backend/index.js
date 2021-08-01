@@ -27,4 +27,5 @@ connection(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopolog
         console.log("Database Connected"));
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
+    console.log('set-up successed');
 });
