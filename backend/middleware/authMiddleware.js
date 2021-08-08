@@ -5,7 +5,7 @@ dotenv.config();
 
 const authMiddleware = {};
 
-authMiddleware.authprize = async (req, res, next) => {
+authMiddleware.authorize = async (req, res, next) => {
     try {
         const token = req.header('Authorization');
 
@@ -51,6 +51,12 @@ authMiddleware.register = async (req, res, next) => {
                 status: false,
                 message: "Email is Already Registered!"
             });
+        } else if (!passValidator(password)) {
+            return res.status(404).json({
+                        position: "middleware",
+                        status: false,
+                        message: "A minimum 8 characters password contains a combination of letter and number are required.!"
+                    });
         } else {
             next()
         }
@@ -61,7 +67,7 @@ authMiddleware.register = async (req, res, next) => {
 
 // validator email
 function isValidEmail(email) {
-    var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (!!email && typeof email === 'string'
         && email.match(emailRegex)) {
@@ -71,6 +77,20 @@ function isValidEmail(email) {
         console.log('ínvalid bro');
         return false;
     }
+}
+
+function passValidator(password) {
+    // minial 8 karakter, 1 huruf dan 1 angka
+    const passRegex = /^(?=.*[0-9])(?=.*[a-z]).{8,32}$/;
+
+    if(password.match(passRegex)) {
+        console.log('Password Ok !');
+        return true;
+    } else {
+        console.log(`Password not Oke ! ${password}`);
+        return false;
+    }
+    
 }
 
 
